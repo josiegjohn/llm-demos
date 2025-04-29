@@ -93,4 +93,3 @@ function renderCountyData(county) {
 
 renderStatewide();
 renderCountyOptions();
-
