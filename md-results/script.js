@@ -59,10 +59,13 @@ function renderStatewide() {
   const div = document.getElementById("statewide");
   let html = "<table><tr><th>Candidate</th><th>Votes</th><th>Percentage</th></tr>";
   candidates.forEach(c => {
-    html += `<tr><td>${c}</td><td>${statewideTotals[c].toLocaleString()}</td><td>${formatPercentage(statewideTotals[c], totalVotes)}</td></tr>`;
+    const name = c.charAt(0).toUpperCase() + c.slice(1);
+    html += `<tr><td>${name}</td><td>${statewideTotals[c].toLocaleString()}</td><td>${formatPercentage(statewideTotals[c], totalVotes)}</td></tr>`;
   });
   html += "</table>";
   div.innerHTML = html;
+
+  drawChart();
 }
 
 function renderCountyOptions() {
@@ -85,10 +88,44 @@ function renderCountyData(county) {
 
   let html = `<h3>${county}</h3><table><tr><th>Candidate</th><th>Votes</th><th>Percentage</th></tr>`;
   candidates.forEach(c => {
-    html += `<tr><td>${c}</td><td>${row[c].toLocaleString()}</td><td>${formatPercentage(row[c], row.total)}</td></tr>`;
+    const name = c.charAt(0).toUpperCase() + c.slice(1);
+    html += `<tr><td>${name}</td><td>${row[c].toLocaleString()}</td><td>${formatPercentage(row[c], row.total)}</td></tr>`;
   });
   html += "</table>";
   document.getElementById("countyData").innerHTML = html;
+}
+
+function drawChart() {
+  const ctx = document.getElementById("resultsChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: candidates.map(c => c.charAt(0).toUpperCase() + c.slice(1)),
+      datasets: [{
+        label: "Votes",
+        data: candidates.map(c => statewideTotals[c]),
+        backgroundColor: [
+          "#4285F4", "#EA4335", "#FBBC05", "#34A853", "#AA46BB", "#999999"
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Statewide Votes by Candidate"
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 }
 
 renderStatewide();

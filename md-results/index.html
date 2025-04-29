@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Election Results</title>
+  <title>Maryland Election Results</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <h1>Maryland Election Results</h1>
@@ -19,6 +20,11 @@
     <label for="countySelect">Select a County:</label>
     <select id="countySelect"></select>
     <div id="countyData"></div>
+  </section>
+
+  <section>
+    <h2>Statewide Vote Share (Chart)</h2>
+    <canvas id="resultsChart" width="400" height="200"></canvas>
   </section>
 
   <script src="script.js"></script>
